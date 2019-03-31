@@ -1,2 +1,6 @@
 # AutoIT_FlickrAPI
-Flick API for AutoIT and Flickr Images Downloader Ex
+Author: Ltnhanst94
+Email:  Ltnhanst94@gmail.com
+Blog:   Ltnhanst94.name.vn
+
+Flick API for AutoIT and Example app: Flickr Images Downloader
