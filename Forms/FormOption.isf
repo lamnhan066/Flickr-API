@@ -1,0 +1,430 @@
+#include-once
+
+; -- Created with ISN Form Studio 2 for ISN AutoIt Studio -- ;
+#include <StaticConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#Include <GuiButton.au3>
+
+Global $FormOption
+Global $Cb_NameStt
+Global $Cb_NameSize
+Global $Cb_NameId
+Global $Lb_Example
+Global $Cb_AutoSize
+Global $Cb_Video
+Global $Bt_CheckUpdate
+Global $Cb_AutoUpdate
+Global $Cb_OpenFolder
+Global $Cb_FromPage1
+
+
+Func _FormOption()
+$FormOption = GUICreate("Tùy chọn",384,237,-1,-1,-1,-1)
+$Cb_NameStt = GUICtrlCreateCheckbox("Đánh số thứ tự",19,48,117,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Cb_NameSize = GUICtrlCreateCheckbox("Kích thước ảnh",242,48,118,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Cb_NameId = GUICtrlCreateCheckbox("ID ảnh",150,48,66,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Lb_Example = GUICtrlCreateLabel("88. Tên (Kích thước).jpg",107.5,27,169,18,BitOr($SS_CENTER,$SS_CENTERIMAGE),-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetBkColor(-1,"-2")
+$Cb_AutoSize = GUICtrlCreateCheckbox("Tải ảnh kích thước lớn nhất (≤ kích thước đang chọn)",18,96,362,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Cb_Video = GUICtrlCreateCheckbox("Cho phép tải Video",18,116,357,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Bt_CheckUpdate = GUICtrlCreateButton("Kiểm tra cập nhật",110,200,143,30,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlCreateLabel("CÁCH ĐẶT TÊN",141,8,102,15,-1,-1)
+GUICtrlSetFont(-1,11,700,0,"Arial")
+GUICtrlSetColor(-1,"0x0000FF")
+GUICtrlSetBkColor(-1,"-2")
+GUICtrlCreateLabel("TÙY CHỈNH TẢI",141,76,102,15,-1,-1)
+GUICtrlSetFont(-1,11,700,0,"Arial")
+GUICtrlSetColor(-1,"0x0000FF")
+GUICtrlSetBkColor(-1,"-2")
+$Cb_AutoUpdate = GUICtrlCreateCheckbox("Tự động kiểm tra cập nhật khi mở App.",18,176,283,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Cb_OpenFolder = GUICtrlCreateCheckbox("Mở thư mục lưu ảnh sau khi tải xong",18,156,264,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+$Cb_FromPage1 = GUICtrlCreateCheckbox("Tải từ trang 1 (mặc định từ trang cuối)",18,136,264,20,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Tải ảnh từ trang đầu tiên đến trang cuối cùng. Nên để theo mặc định để chức năng tải tiếp tục hoạt động tốt hơn.")
+return $FormOption
+EndFunc
+
+
+
+#cs
+[gui]
+Handle_deklaration=global
+Handle_deklaration_const=false
+title=Tùy chọn
+breite=384
+hoehe=237
+style=-1
+exstyle=-1
+bgcolour=0xF0F0F0
+bgimage=none
+handle=$FormOption
+parent=
+code=
+codebeforegui=
+xpos=-1
+ypos=-1
+center_gui=true
+title_textmode=normal
+isf_include_once=true
+only_controls_in_isf=false
+const_modus=default
+gui_code_in_function=true
+gui_code_in_function_name=_FormOption()
+gui_event_close=
+gui_event_minimize=
+gui_event_restore=
+gui_event_maximize=
+gui_event_mousemove=
+gui_event_primarydown=
+gui_event_primaryup=
+gui_event_secoundarydown=
+gui_event_secoundaryup=
+gui_event_resized=
+gui_event_dropped=
+[0x000F1B66]
+handle=409
+locked=0
+resize=
+code=
+type=checkbox
+x=19
+y=48
+width=117
+height=20
+text=Đánh số thứ tự
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_NameStt
+func=
+bgimage=
+order=0
+tabpage=-1
+iconindex=
+textmode=text
+[0x001A1B5A]
+handle=410
+locked=0
+resize=
+code=
+type=checkbox
+x=242
+y=48
+width=118
+height=20
+text=Kích thước ảnh
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_NameSize
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=2
+[0x00081B04]
+handle=411
+locked=0
+resize=
+code=
+type=checkbox
+x=150
+y=48
+width=66
+height=20
+text=ID ảnh
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_NameId
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=3
+[0x00081B0E]
+handle=412
+locked=0
+resize=
+code=
+type=label
+x=107.5
+y=27
+width=169
+height=18
+text=88. Tên (Kích thước).jpg
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=$SS_CENTER+$SS_CENTERIMAGE
+exstyle=
+textcolour=0x000000
+bgcolour=-2
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Lb_Example
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=5
+[0x00081AD6]
+handle=413
+locked=0
+resize=
+code=
+type=checkbox
+x=18
+y=96
+width=362
+height=20
+text=Tải ảnh kích thước lớn nhất (≤ kích thước đang chọn)
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_AutoSize
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=6
+[0x00081B26]
+handle=414
+locked=0
+resize=
+code=
+type=checkbox
+x=18
+y=116
+width=357
+height=20
+text=Cho phép tải Video
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_Video
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=7
+[0x00081B06]
+handle=415
+locked=0
+resize=
+code=
+type=label
+x=141
+y=8
+width=102
+height=15
+text=CÁCH ĐẶT TÊN
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x0000FF
+bgcolour=-2
+font=Arial
+fontsize=11
+fontstyle=700
+fontattribute=0
+id=
+func=
+bgimage=
+order=8
+tabpage=-1
+iconindex=
+textmode=text
+[0x00081ADA]
+handle=416
+locked=0
+resize=
+code=
+type=button
+x=110
+y=200
+width=143
+height=30
+text=Kiểm tra cập nhật
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Bt_CheckUpdate
+func=
+bgimage=
+order=8
+tabpage=-1
+iconindex=
+textmode=text
+[0x00081B02]
+handle=417
+locked=0
+resize=
+code=
+type=label
+x=141
+y=76
+width=102
+height=15
+text=TÙY CHỈNH TẢI
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x0000FF
+bgcolour=-2
+font=Arial
+fontsize=11
+fontstyle=700
+fontattribute=0
+id=
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=9
+[0x00081AF0]
+handle=418
+locked=0
+resize=
+code=
+type=checkbox
+x=18
+y=176
+width=283
+height=20
+text=Tự động kiểm tra cập nhật khi mở App.
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_AutoUpdate
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=10
+[0x00081AE4]
+handle=419
+locked=0
+resize=
+code=
+type=checkbox
+x=18
+y=156
+width=264
+height=20
+text=Mở thư mục lưu ảnh sau khi tải xong
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_OpenFolder
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=11
+[0x00081ADC]
+handle=420
+locked=0
+resize=
+code=
+type=checkbox
+x=18
+y=136
+width=264
+height=20
+text=Tải từ trang 1 (mặc định từ trang cuối)
+tooltip=Tải ảnh từ trang đầu tiên đến trang cuối cùng. Nên để theo mặc định để chức năng tải tiếp tục hoạt động tốt hơn.
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_FromPage1
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=12
+#ce

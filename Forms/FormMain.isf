@@ -1,0 +1,423 @@
+; -- Created with ISN Form Studio 2 for ISN AutoIt Studio -- ;
+#include <StaticConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#Include <GuiButton.au3>
+#include <EditConstants.au3>
+#include <ProgressConstants.au3>
+#include <ComboConstants.au3>
+
+$FormMain = GUICreate("Flickr Images Downloader",378,153,-1,-1,-1,-1)
+$IpUrl = GUICtrlCreateInput("",11,9,276,22,-1,$WS_EX_CLIENTEDGE)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Url của Flickr cần tải")
+GUICtrlSendMsg(-1, $EM_SETCUEBANNER, True, "UserID hoặc https://www.flickr.com/...")
+$Ip_Path = GUICtrlCreateInput("C:\Program Files (x86)\ISN AutoIt Studio\Data\Plugins\formstudio2\Downloads",10,37,326,24,-1,$WS_EX_CLIENTEDGE)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Thư mục lưu ảnh")
+GUICtrlSetData(-1, @ScriptDir & "\Downloads")
+$Download = GUICtrlCreateButton("Tải",180,66,92,26,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Bắt đầu tải")
+$Bt_Path = GUICtrlCreateButton("...",343,37,28,26,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Chọn thư mục lưu ảnh")
+$ProgressBar = GUICtrlCreateProgress(10,98,361,20,$PBS_SMOOTH,-1)
+$Lb_Status = GUICtrlCreateLabel("",38,125,305,21,BitOr($SS_CENTER,$SS_CENTERIMAGE),-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetBkColor(-1,"-2")
+$Cb_Size = GUICtrlCreateCombo("",10,68,106,24,-1,-1)
+GUICtrlSetData(-1,"")
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Kích thước ảnh muốn tải")
+$Cb_Thread = GUICtrlCreateCombo("",126,68,46,24,-1,-1)
+GUICtrlSetData(-1,"")
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Số ảnh tải về cùng lúc")
+$Cb_Private = GUICtrlCreateCheckbox("Riêng tư",294,8,73,25,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Sử dụng OAuth cấp quyền tải ở chế độ riêng tư (chỉ sử dụng permission Read)")
+$Bt_ExportTxt = GUICtrlCreateButton("Xuất tệp",279,66,92,26,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Xuất danh sách đường dẫn tải về ra tệp .txt")
+$Bt_Question = GUICtrlCreateButton("?",343,123,28,26,-1,-1)
+GUICtrlSetFont(-1,11,400,0,"Arial")
+GUICtrlSetTip(-1,"Hướng dẫn")
+$Bt_Option = GUICtrlCreateButton("⚙️",10,123,28,26,BitOr($BS_CENTER,$BS_VCENTER),-1)
+GUICtrlSetFont(-1,14,400,0,"Arial")
+GUICtrlSetTip(-1,"Tùy chỉnh")
+
+
+
+#cs
+[gui]
+Handle_deklaration=default
+Handle_deklaration_const=false
+title=Flickr Images Downloader
+breite=378
+hoehe=153
+style=-1
+exstyle=-1
+bgcolour=0xF0F0F0
+bgimage=none
+handle=$FormMain
+parent=
+code=
+codebeforegui=
+xpos=-1
+ypos=-1
+center_gui=true
+title_textmode=normal
+isf_include_once=false
+only_controls_in_isf=false
+const_modus=default
+gui_code_in_function=false
+gui_code_in_function_name=
+gui_event_close=
+gui_event_minimize=
+gui_event_restore=
+gui_event_maximize=
+gui_event_mousemove=
+gui_event_primarydown=
+gui_event_primaryup=
+gui_event_secoundarydown=
+gui_event_secoundaryup=
+gui_event_resized=
+gui_event_dropped=
+[0x00081D7A]
+handle=409
+locked=0
+resize=
+code=
+type=button
+x=180
+y=66
+width=92
+height=26
+text=Tải
+tooltip=Bắt đầu tải
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Download
+func=
+bgimage=
+order=3
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D7C]
+handle=410
+locked=0
+resize=
+code=GUICtrlSendMsg(-1, $EM_SETCUEBANNER, True, "UserID hoặc https://www.flickr.com/...")
+type=input
+x=11
+y=9
+width=276
+height=22
+text=
+tooltip=Url của Flickr cần tải
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=$WS_EX_CLIENTEDGE
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$IpUrl
+func=
+bgimage=
+order=2
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D7E]
+handle=411
+locked=0
+resize=
+code=GUICtrlSetData(-1, @ScriptDir & "\Downloads")
+type=input
+x=10
+y=37
+width=326
+height=24
+text=C:\Program Files (x86)\ISN AutoIt Studio\Data\Plugins\formstudio2\Downloads
+tooltip=Thư mục lưu ảnh
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=$WS_EX_CLIENTEDGE
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Ip_Path
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=3
+[0x00011D80]
+handle=412
+locked=0
+resize=
+code=
+type=button
+x=343
+y=37
+width=28
+height=26
+text=...
+tooltip=Chọn thư mục lưu ảnh
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Bt_Path
+func=
+bgimage=
+order=4
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D82]
+handle=413
+locked=0
+resize=
+code=
+type=progress
+x=10
+y=98
+width=361
+height=20
+tooltip=
+text=
+state=$GUI_SHOW+$GUI_ENABLE
+style=$PBS_SMOOTH
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=8
+fontstyle=400
+fontattribute=0
+id=$ProgressBar
+func=
+bgimage=
+order=5
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D84]
+handle=414
+locked=0
+resize=
+code=
+type=label
+x=38
+y=125
+width=305
+height=21
+text=
+tooltip=
+state=$GUI_SHOW+$GUI_ENABLE
+style=$SS_CENTER+$SS_CENTERIMAGE
+exstyle=
+textcolour=0x000000
+bgcolour=-2
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Lb_Status
+func=
+bgimage=
+order=6
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D86]
+handle=415
+locked=0
+resize=
+code=
+type=combo
+x=10
+y=68
+width=106
+height=24
+text=
+tooltip=Kích thước ảnh muốn tải
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_Size
+func=
+bgimage=
+order=7
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D8C]
+handle=416
+locked=0
+resize=
+code=
+type=combo
+x=126
+y=68
+width=46
+height=24
+text=
+tooltip=Số ảnh tải về cùng lúc
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_Thread
+func=
+bgimage=
+tabpage=-1
+iconindex=
+textmode=text
+order=8
+[0x00011D92]
+handle=417
+locked=0
+resize=
+code=
+type=checkbox
+x=294
+y=8
+width=73
+height=25
+text=Riêng tư
+tooltip=Sử dụng OAuth cấp quyền tải ở chế độ riêng tư (chỉ sử dụng permission Read)
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=0xF0F0F0
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Cb_Private
+func=
+bgimage=
+order=9
+tabpage=-1
+iconindex=
+textmode=text
+[0x00011D94]
+handle=418
+locked=0
+resize=
+code=
+type=button
+x=343
+y=123
+width=28
+height=26
+text=?
+tooltip=Hướng dẫn
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Bt_Question
+func=
+bgimage=
+tabpage=-1
+iconindex=1
+textmode=text
+order=11
+[0x00011D96]
+handle=419
+locked=0
+resize=
+code=
+type=button
+x=279
+y=66
+width=92
+height=26
+text=Xuất tệp
+tooltip=Xuất danh sách đường dẫn tải về ra tệp .txt
+state=$GUI_SHOW+$GUI_ENABLE
+style=
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=11
+fontstyle=400
+fontattribute=0
+id=$Bt_ExportTxt
+func=
+bgimage=
+tabpage=-1
+iconindex=1
+textmode=text
+order=11
+[0x00011D98]
+handle=420
+locked=0
+resize=
+code=
+type=button
+x=10
+y=123
+width=28
+height=26
+text=⚙️
+tooltip=Tùy chỉnh
+state=$GUI_SHOW+$GUI_ENABLE
+style=$BS_CENTER+$BS_VCENTER
+exstyle=
+textcolour=0x000000
+bgcolour=
+font=Arial
+fontsize=14
+fontstyle=400
+fontattribute=0
+id=$Bt_Option
+func=
+bgimage=
+tabpage=-1
+iconindex=1
+textmode=text
+order=12
+#ce
