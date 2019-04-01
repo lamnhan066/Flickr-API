@@ -11,6 +11,25 @@
 #Include <GuiButton.au3>
 #include <EditConstants.au3>
 
+;======================================
+; _Flickr_SetUp					Bắt buộc phải có để khai báo API
+; _Flickr_GetOAuthToken			|
+; _Flickr_GetOAuthSecret		|
+; _Flickr_GetOAuthUserName		| => Lấy các thông tin tương ứng sau khi đã Authorize
+; _Flickr_GetOAuthUserID		|
+; _Flickr_GetOAuthFullName		|
+; _Flickr_ApiGetUrl				Lấy Url dựa vào API được viết trên Web. Đây là hàm quan trọng nhất
+;======================================
+; _Flickr_GetPeoplePhoto
+; _Flickr_GetGroupPhoto
+; _Flickr_GetPhotosetsPhoto
+; _Flickr_GetSizes
+;======================================
+; _Flickr_CheckToken
+; _Flickr_OauthCheckToken()
+; _Flickr_GetAccessToken
+;======================================
+
 Global $__Flickr_ApiKey             = ""
 Global $__Flickr_Secret             = ""
 Global $__Flickr_IsSaveToken        = True
@@ -49,30 +68,6 @@ Func _Flickr_SetUp($ApiKey, $Secret = "", $OAuthToken = "", $OAuthSecret = "", $
 	EndIf
 EndFunc
 
-Func _Flickr_CheckToken()
-	If $__Flickr_ApiKey = "" or  $__Flickr_Secret = "" Then
-		ConsoleWrite("!  Please use _Flickr_SetUp to setup Flickr_API UDF first!")
-		Return
-	EndIf
-	If not $__Flickr_IsTokenChecked Then
-		If $__Flickr_Oauth_Token <> "" and not _Flickr_OauthCheckToken() Then
-			$__Flickr_Oauth_Fullname     = ""
-			$__Flickr_Oauth_Token        = ""
-			$__Flickr_Oauth_Token_Secret = ""
-			$__Flickr_Oauth_User_Nsid    = ""
-			$__Flickr_Oauth_Username     = ""
-			FileDelete($__Flickr_PathTokenSaved)
-		EndIf
-		If $__Flickr_Oauth_Token  = "" Then _Flickr_GetAccessToken()
-		If $__Flickr_Oauth_Token <> "" Then $__Flickr_IsTokenChecked = True
-	EndIf
-EndFunc
-
-Func _Flickr_OauthCheckToken()
-	Local $Rs = _HttpRequest(2, _Flickr_ApiGetUrl("flickr.auth.oauth.checkToken", "", False, True, True))
-	Return StringInStr($Rs, '"stat":"ok"') <> 0
-EndFunc
-
 Func _Flickr_GetOAuthToken()
 	Return $__Flickr_Oauth_Token
 EndFunc
@@ -93,6 +88,109 @@ Func _Flickr_GetOAuthFullName()
 	Return $__Flickr_Oauth_Fullname
 EndFunc
 
+; #FUNCTION# ====================================================================================================================
+; Name ..........: _Flickr_ApiGetUrl
+; Description ...:
+; Syntax ........: _Flickr_ApiGetUrl($Method, $ParamArray[, $OAuth = False[, $IsSign = False[, $IsSignWithOAuthSecret = False]]])
+; Parameters ....: $Method              	- Method tương ứng của Flickr API. VD: "flickr.people.getPhotos".
+;                  $ParamArray          	- Arguments cần sử dụng của Method. Ví dụ:
+;												+ $ParamArray[4] = ["per_page=500", "user_id=xxx", "page=1", "extras=media,url_o"]
+;												+ $Param = "per_page=500&user_id=xxx&page=1&extras=media,url_o"
+;												=> Arg hỗ trợ sử dụng array hoặc string (các arg cách nhau bởi dấu &)
+;                  $OAuth             	 	- [optional] Cho phép sử dụng Authorize.
+;                  $IsSign             		- [optional] Mặc định khi cho phép Authorize thì $IsSign sẽ là True.
+;											- Param này dự phòng sử dụng khi Flickr API chỉ đòi hỏi Sign mà không cần phải thực hiện Authorize
+;                  $IsSignWithOAuthSecret	- [optional] Mặc định khi cho phép Authorize thì $IsSignWithOAuthSecret sẽ là True.
+;											- Param này dự phòng sử dụng khi Flickr API đòi hỏi Sign nhưng không cần sử dụng App Secret
+; Return values .: Url để request dự trên API
+; Author ........: Ltnhanst94
+; Modified ......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: No
+; ===============================================================================================================================
+Func _Flickr_ApiGetUrl($Method, $ParamArray, $OAuth = False, $IsSign = False, $IsSignWithOAuthSecret = False)
+	Local $FlickrMethod = "GET"
+	Local $FlickrUrl = "https://api.flickr.com/services/rest"
+	; ------------------------------------------------------------------------------------------------------
+	If $OAuth  = Default Then $OAuth = False
+	If $IsSign = Default Then $IsSign = False
+	If $IsSignWithOAuthSecret = Default Then $IsSignWithOAuthSecret = False
+	; ------------------------------------------------------------------------------------------------------
+	Local $Params = "method=" & $Method _
+					&"&nojsoncallback=1" _
+					&"&format=json" _
+					&"&api_key=" & $__Flickr_ApiKey
+	; ------------------------------------------------------------------------------------------------------
+	If $ParamArray <> "" or IsArray($ParamArray) Then
+		If not IsArray($ParamArray) Then $ParamArray = StringSplit($ParamArray, "&", 2)
+		For $iParam in $ParamArray
+			$Params &= "&" & $iParam
+		Next
+	EndIf
+	; ------------------------------------------------------------------------------------------------------
+	If $OAuth Then
+		_Flickr_CheckToken()
+		$IsSign = True
+		$IsSignWithOAuthSecret = True
+	EndIf
+	; ------------------------------------------------------------------------------------------------------
+	If $IsSign Then
+		$Params = StringReplace($Params, "&api_key=", "&oauth_consumer_key=")
+		$Params &= "&oauth_version=1.0" _
+				   &"&oauth_signature_method=HMAC-SHA1" _
+				   &"&oauth_nonce=" & String(Random(11111111, 99999999, 1)) _
+				   &"&oauth_timestamp=" & _TimeGetStamp()
+		If $IsSignWithOAuthSecret Then
+			$Params &= "&oauth_token=" & $__Flickr_Oauth_Token
+		EndIf
+		$Params = _JsonSort($Params)
+		Local $baseString = $FlickrMethod & "&" & _URIEncode($FlickrUrl) & "&" & _URIEncode($Params)
+		If $IsSignWithOAuthSecret Then
+			Local $signature = _URIEncode(base64(hmac($__Flickr_Secret & "&" & $__Flickr_Oauth_Token_Secret, $baseString, "sha1")))
+		Else
+			Local $signature = _URIEncode(base64(hmac($__Flickr_Secret & "&", $baseString, "sha1")))
+		EndIf
+		$Params &= "&oauth_signature=" & $signature
+	EndIf
+	; ------------------------------------------------------------------------------------------------------
+	Return $FlickrUrl & "?" & $Params
+EndFunc
+
+Func _Flickr_GetIdFromUrl($Url)
+	If StringInStr($Url, "/groups/") Then
+		Local $RqUrl = _Flickr_ApiGetUrl("flickr.urls.lookupGroup", "url=" & $Url)
+	Else
+		Local $RqUrl = _Flickr_ApiGetUrl("flickr.urls.lookupUser", "url=" & $Url)
+	EndIf
+	Local $RqData = _HttpRequest(2, $RqUrl)
+	Local $Rs = StringRegExp($RqData, '"id":"(.*?)"', 1)
+	If @error Then Return ""
+	Return $Rs[0]
+EndFunc
+
+Func _Flickr_GetPeoplePhoto($UserID, $Page, $Size, $IsOAutho = False)
+	Local $ParamArray[4] = ["per_page=500", "user_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size]
+	Return _Flickr_ApiGetUrl("flickr.people.getPhotos", $ParamArray, $IsOAutho)
+EndFunc
+
+Func _Flickr_GetGroupPhoto($UserID, $Page, $Size, $IsOAutho = False)
+	Local $ParamArray[4] = ["per_page=500", "group_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size]
+	Return _Flickr_ApiGetUrl("flickr.groups.pools.getPhotos", $ParamArray, $IsOAutho)
+EndFunc
+
+Func _Flickr_GetPhotosetsPhoto($UserID, $Page, $Size, $PhotosetID, $IsOAutho = False)
+	Local $ParamArray[5] = ["per_page=500", "group_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size, "photoset_id=" & $PhotosetID]
+	Return _Flickr_ApiGetUrl("flickr.photosets.getPhotos", $ParamArray, $IsOAutho)
+EndFunc
+
+Func _Flickr_GetSizes($PhotoID, $IsOAutho = False)
+	Local $ParamArray[1] = ["photo_id=" & $PhotoID]
+	Return _Flickr_ApiGetUrl("flickr.photos.getSizes", $ParamArray, $IsOAutho)
+EndFunc
+
+#Region Internal
 Func _Flickr_GetAccessToken($perm = "read")
 	If $perm <> "read" and $perm <> "write" and $perm <> "delete" Then $perm = "read"
 	; ------------------------------------------------------------------------------------------------------
@@ -106,9 +204,9 @@ Func _Flickr_GetAccessToken($perm = "read")
 	Local $baseString = $Part1 & "&" & _URIEncode($Part2) & "&" & _URIEncode($Part3)
 	Local $signature  = _URIEncode(base64(hmac($__Flickr_Secret & "&", $baseString, "sha1")))
 	Local $RqData     = _HttpRequest(2, $Part2 & "?" & $Part3 & '&oauth_signature=' & $signature)
-	      $RqData     = StringReplace($RqData, "oauth_callback_confirmed=true&oauth_token=", "")
-	      $RqData     = StringReplace($RqData, "oauth_token_secret=", "")
-	Local $Rs	  = StringSplit($RqData, "&", 2)
+		  $RqData     = StringReplace($RqData, "oauth_callback_confirmed=true&oauth_token=", "")
+		  $RqData     = StringReplace($RqData, "oauth_token_secret=", "")
+	Local $Rs		  = StringSplit($RqData, "&", 2)
 	; ------------------------------------------------------------------------------------------------------
 	ShellExecute("https://www.flickr.com/services/oauth/authorize?oauth_token=" & $Rs[0] & "&perms=" & $perm)
 	; ------------------------------------------------------------------------------------------------------
@@ -126,11 +224,11 @@ Func _Flickr_GetAccessToken($perm = "read")
 	Local $baseString = $Part1 & "&" & _URIEncode($Part2) & "&" & _URIEncode($Part3)
 	Local $signature  = _URIEncode(base64(hmac($__Flickr_Secret & "&" & $Rs[1], $baseString, "sha1")))
 	Local $RqData     = _HttpRequest(2,$Part2 & "?" & $Part3 & '&oauth_signature=' & $signature)
-	      $RqData 	  = StringReplace($RqData, "fullname=", "")
-	      $RqData 	  = StringReplace($RqData, "oauth_token=", "")
-	      $RqData 	  = StringReplace($RqData, "oauth_token_secret=", "")
-	      $RqData	  = StringReplace($RqData, "user_nsid=", "")
-	      $RqData  	  = StringReplace($RqData, "username=", "")
+		  $RqData 	  = StringReplace($RqData, "fullname=", "")
+		  $RqData 	  = StringReplace($RqData, "oauth_token=", "")
+		  $RqData 	  = StringReplace($RqData, "oauth_token_secret=", "")
+		  $RqData	  = StringReplace($RqData, "user_nsid=", "")
+		  $RqData  	  = StringReplace($RqData, "username=", "")
 	; ------------------------------------------------------------------------------------------------------
 	Local $Rs = StringSplit($RqData, "&", 2)
 	For $i = 0 to UBound($Rs) - 1
@@ -154,84 +252,28 @@ Func _Flickr_GetAccessToken($perm = "read")
 	Return $Rs
 EndFunc
 
-Func _Flickr_GetIdFromUrl($Url)
-	If StringInStr($Url, "/groups/") Then
-		Local $RqUrl = _Flickr_ApiGetUrl("flickr.urls.lookupGroup", "url=" & $Url)
-	Else
-		Local $RqUrl = _Flickr_ApiGetUrl("flickr.urls.lookupUser", "url=" & $Url)
+Func _Flickr_CheckToken()
+	If $__Flickr_ApiKey = "" or  $__Flickr_Secret = "" Then
+		ConsoleWrite("!  Please use _Flickr_SetUp to setup Flickr_API UDF first!")
+		Return
 	EndIf
-	Local $RqData = _HttpRequest(2, $RqUrl)
-	Local $Rs = StringRegExp($RqData, '"id":"(.*?)"', 1)
-	If @error Then Return ""
-	Return $Rs[0]
-EndFunc   ;==>_GetIdFromUrl
-
-Func _Flickr_GetPeoplePhoto($UserID, $Page, $Size, $IsOAutho = False)
-	Local $ParamArray[4] = ["per_page=500", "user_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size]
-	Return _Flickr_ApiGetUrl("flickr.people.getPhotos", $ParamArray, $IsOAutho)
-EndFunc
-
-Func _Flickr_GetGroupPhoto($UserID, $Page, $Size, $IsOAutho = False)
-	Local $ParamArray[4] = ["per_page=500", "group_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size]
-	Return _Flickr_ApiGetUrl("flickr.groups.pools.getPhotos", $ParamArray, $IsOAutho)
-EndFunc
-
-Func _Flickr_GetPhotosetsPhoto($UserID, $Page, $Size, $PhotosetID, $IsOAutho = False)
-	Local $ParamArray[5] = ["per_page=500", "group_id=" & $UserID, "page=" & $Page, "extras=media,url_" & $Size, "photoset_id=" & $PhotosetID]
-	Return _Flickr_ApiGetUrl("flickr.photosets.getPhotos", $ParamArray, $IsOAutho)
-EndFunc
-
-Func _Flickr_GetSizes($PhotoID, $IsOAutho = False)
-	Local $ParamArray[1] = ["photo_id=" & $PhotoID]
-	Return _Flickr_ApiGetUrl("flickr.photos.getSizes", $ParamArray, $IsOAutho)
-EndFunc
-
-Func _Flickr_ApiGetUrl($Method, $ParamArray, $OAuth = False, $IsSign = False, $IsSignWithOAuthSecret = False)
-	Local $FlickrMethod = "GET"
-	Local $FlickrUrl = "https://api.flickr.com/services/rest"
-	; ------------------------------------------------------------------------------------------------------
-	If $OAuth  = Default Then $OAuth = False
-	If $IsSign = Default Then $IsSign = False
-	If $IsSignWithOAuthSecret = Default Then $IsSignWithOAuthSecret = False
-	; ------------------------------------------------------------------------------------------------------
-	Local $Params = "method=" & $Method _
-				  & "&nojsoncallback=1" _
-				  & "&format=json" _
-				  & "&api_key=" & $__Flickr_ApiKey
-	; ------------------------------------------------------------------------------------------------------
-	If $ParamArray <> "" or IsArray($ParamArray) Then
-		If not IsArray($ParamArray) Then $ParamArray = StringSplit($ParamArray, "&", 2)
-		For $iParam in $ParamArray
-			$Params &= "&" & $iParam
-		Next
-	EndIf
-	; ------------------------------------------------------------------------------------------------------
-	If $OAuth Then
-		_Flickr_CheckToken()
-		$IsSign = True
-		$IsSignWithOAuthSecret = True
-	EndIf
-	; ------------------------------------------------------------------------------------------------------
-	If $IsSign Then
-		$Params = StringReplace($Params, "&api_key=", "&oauth_consumer_key=")
-		$Params &= "&oauth_version=1.0" _
-			&"&oauth_signature_method=HMAC-SHA1" _
-			&"&oauth_nonce=" & String(Random(11111111, 99999999, 1)) _
-			&"&oauth_timestamp=" & _TimeGetStamp()
-		If $IsSignWithOAuthSecret Then
-			$Params &= "&oauth_token=" & $__Flickr_Oauth_Token
+	If not $__Flickr_IsTokenChecked Then
+		If $__Flickr_Oauth_Token <> "" and not _Flickr_OauthCheckToken() Then
+			$__Flickr_Oauth_Fullname     = ""
+			$__Flickr_Oauth_Token        = ""
+			$__Flickr_Oauth_Token_Secret = ""
+			$__Flickr_Oauth_User_Nsid    = ""
+			$__Flickr_Oauth_Username     = ""
+			FileDelete($__Flickr_PathTokenSaved)
 		EndIf
-		$Params = _JsonSort($Params)
-		Local $baseString = $FlickrMethod & "&" & _URIEncode($FlickrUrl) & "&" & _URIEncode($Params)
-		If $IsSignWithOAuthSecret Then
-			Local $signature = _URIEncode(base64(hmac($__Flickr_Secret & "&" & $__Flickr_Oauth_Token_Secret, $baseString, "sha1")))
-		Else
-			Local $signature = _URIEncode(base64(hmac($__Flickr_Secret & "&", $baseString, "sha1")))
-		EndIf
-		$Params &= "&oauth_signature=" & $signature
+		If $__Flickr_Oauth_Token  = "" Then _Flickr_GetAccessToken()
+		If $__Flickr_Oauth_Token <> "" Then $__Flickr_IsTokenChecked = True
 	EndIf
-	; ------------------------------------------------------------------------------------------------------
-	Return $FlickrUrl & "?" & $Params
+EndFunc
+
+Func _Flickr_OauthCheckToken()
+	Local $Rs = _HttpRequest(2, _Flickr_ApiGetUrl("flickr.auth.oauth.checkToken", "", False, True, True))
+	Return StringInStr($Rs, '"stat":"ok"') <> 0
 EndFunc
 
 Func _JsonSort($JsonRaw)
@@ -337,3 +379,4 @@ Func _InputAuthorizeCode()
 		Sleep(10)
 	Wend
 EndFunc
+#EndRegion Internal
