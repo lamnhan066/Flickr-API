@@ -18,16 +18,16 @@
 ; _Flickr_GetOAuthUserName		| => Lấy các thông tin tương ứng sau khi đã Authorize
 ; _Flickr_GetOAuthUserID		|
 ; _Flickr_GetOAuthFullName		|
-; _Flickr_ApiGetUrl				Lấy Url dựa vào API được viết trên Web. Đây là hàm quan trọng nhất
-;======================================
+; _Flickr_ApiGetUrl				Lấy Url dựa vào API được viết trên Web (https://www.flickr.com/services/api/). Đây là hàm quan trọng nhất
+;====================================== Hàm dựa trên _Flickr_ApiGetUrl
 ; _Flickr_GetPeoplePhoto
 ; _Flickr_GetGroupPhoto
 ; _Flickr_GetPhotosetsPhoto
 ; _Flickr_GetSizes
-;======================================
+;====================================== Internal
+; _Flickr_GetAccessToken		Lấy Access Token
+; _Flickr_OauthCheckToken		Kiểm tra token của User đã thực hiện Authorize
 ; _Flickr_CheckToken
-; _Flickr_OauthCheckToken()
-; _Flickr_GetAccessToken
 ;======================================
 
 Global $__Flickr_ApiKey             = ""
@@ -43,6 +43,7 @@ Global $__Flickr_Oauth_Username     = ""
 
 Global $__Flickr_IsTokenChecked     = False
 
+; Hàm khai báo
 Func _Flickr_SetUp($ApiKey, $Secret = "", $OAuthToken = "", $OAuthSecret = "", $IsSaveToken = True, $PathTokenSaved = @ScriptDir & "\FlickrOAutInfor.ini")
 	If $ApiKey         = Default Then $ApiKey      = ""
 	If $Secret         = Default Then $Secret      = ""
