@@ -103,13 +103,8 @@ EndFunc
 ;											- Param này dự phòng sử dụng khi Flickr API chỉ đòi hỏi Sign mà không cần phải thực hiện Authorize
 ;                  $IsSignWithOAuthSecret	- [optional] Mặc định khi cho phép Authorize thì $IsSignWithOAuthSecret sẽ là True.
 ;											- Param này dự phòng sử dụng khi Flickr API đòi hỏi Sign nhưng không cần sử dụng App Secret
-; Return values .: Url để request dự trên API
+; Return values .: Url để request
 ; Author ........: Ltnhanst94
-; Modified ......:
-; Remarks .......:
-; Related .......:
-; Link ..........:
-; Example .......: No
 ; ===============================================================================================================================
 Func _Flickr_ApiGetUrl($Method, $ParamArray, $OAuth = False, $IsSign = False, $IsSignWithOAuthSecret = False)
 	Local $FlickrMethod = "GET"
