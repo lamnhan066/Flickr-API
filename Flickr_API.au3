@@ -60,7 +60,7 @@ Func _Flickr_SetUp($ApiKey, $Secret = "", $OAuthToken = "", $OAuthSecret = "", $
 	$__Flickr_IsSaveToken    = $IsSaveToken
 	$__Flickr_PathTokenSaved = $PathTokenSaved
 
-	If $__Flickr_Oauth_Token = "" Then
+	If $__Flickr_IsSaveToken and $__Flickr_Oauth_Token = "" Then
 		$__Flickr_Oauth_Fullname     = BinaryToString(IniRead($__Flickr_PathTokenSaved, "Info", "1", ""), 4) ; FullName
 		$__Flickr_Oauth_Token        = BinaryToString(IniRead($__Flickr_PathTokenSaved, "Info", "2", ""), 4) ; Token
 		$__Flickr_Oauth_Token_Secret = BinaryToString(IniRead($__Flickr_PathTokenSaved, "Info", "3", ""), 4) ; TokenSecret
