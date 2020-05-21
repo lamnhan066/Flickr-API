@@ -40,14 +40,14 @@ Global $IsCheckedAutoSize   = _IniReadState("Setting", "AutoSize", "True")
 Global $IsCheckedVideo      = _IniReadState("Setting", "Video", "True")
 Global $IsCheckedFromPage1  = _IniReadState("Setting", "FromPage1", "False")
 Global $IsCheckedOpenFolder = _IniReadState("Setting", "OpenFolder", "True")
-Global $IsCheckedAutoUpdate = _IniReadState("Setting", "AutoUpdate", "False")
+;~ Global $IsCheckedAutoUpdate = _IniReadState("Setting", "AutoUpdate", "False")
 ;--------------------------------------------------------------------------------------
 Global $IsDebug = False
 ;--------------------------------------------------------------------------------------
 For $s In $SizeName
 	GUICtrlSetData($Cb_Size, $s, "Original")
 Next
-For $i = 1 To 16
+For $i = 1 To 100
 	GUICtrlSetData($Cb_Thread, $i, 8)
 Next
 ;--------------------------------------------------------------------------------------
@@ -65,10 +65,8 @@ If Not FileExists(@ScriptDir & "\Configure.ini") Then
 			Case $GUI_EVENT_CLOSE
 				GUIDelete($GuiInfor)
 				ExitLoop
-			Case $Lb_fbUrl
-				ShellExecute("https://www.facebook.com/ltnhan.st.94")
-			Case $Lb_WsUrl
-				ShellExecute("https://www.ltnhanst94.name.vn")
+			Case $Lb_EmailUrl
+				; skip
 		EndSwitch
 		Sleep(10)
 	WEnd
@@ -87,10 +85,8 @@ While 1
 					Case $GUI_EVENT_CLOSE
 						GUIDelete($GuiInfor)
 						ExitLoop
-					Case $Lb_fbUrl
-						ShellExecute("https://www.facebook.com/ltnhan.st.94")
-					Case $Lb_WsUrl
-						ShellExecute("https://www.ltnhanst94.name.vn")
+					Case $Lb_EmailUrl
+						; skip
 				EndSwitch
 				Sleep(10)
 			WEnd
@@ -99,11 +95,9 @@ While 1
 		Case $Download
 			_SetStt("Đang kiểm tra..")
 			Local $sID = GUICtrlRead($IpUrl)
-			If $sID = "" Then
-				If _IsChecked($Cb_Private) Then
-					_Flickr_CheckToken()
-					$sID = _Flickr_GetOAuthUserID()
-				EndIf
+			If $sID = "" and _IsChecked($Cb_Private) Then
+				_Flickr_CheckToken()
+				$sID = _Flickr_GetOAuthUserID()
 			EndIf
 			If StringLeft($sID, 4) == "http" Then $sID = _Flickr_GetIdFromUrl($sID)
 			ConsoleWrite('@@ Debug(' & @ScriptLineNumber & ') : $sID = ' & $sID & @CRLF & '>Error code: ' & @error & @CRLF) ;### Debug Console
@@ -156,8 +150,6 @@ While 1
 						Else
 							If StringInStr($hExample, "Kích thước") Then GUICtrlSetData($Lb_Example, StringReplace($hExample, " (Kích thước)", ".jpg"))
 						EndIf
-					Case $Bt_CheckUpdate
-						; Update
 				EndSwitch
 				Sleep(10)
 			WEnd
@@ -214,8 +206,8 @@ Func _FlickrDownload($ID, $SavePath, $MultiNumber)
 	Local $Timer = TimerInit()
 	Local $PageCount = $TotalPages, $TotalImgCount = 0, $NonImgCount = 0
 	Local $Text, $i ; ,$AllPhotoID[0]
-
-	If $IsCheckedFromPage1 Then $PageCount = 1
+	
+	If $IsCheckedFromPage1 Then $PageCount = 1	
 	While 1
 		Local $AllLink[0], $AllTitle[0], $AllInfo[0], $AllVideoPrivateLink[0]
 		_SetStt("Lấy danh sách url ảnh (Trang " & $PageCount & "/" & $TotalPages & ")..")
@@ -223,8 +215,8 @@ Func _FlickrDownload($ID, $SavePath, $MultiNumber)
 		$i = _ArraySearch($SizeName, GUICtrlRead($Cb_Size))
 		_SetStt("Đang mã hóa lại thông tin..")
 		$AllInfo = StringRegExp(StringReplace($Text, "\", ""), '{"id"(.*?)}', 3)
-		If @error or UBound($AllInfo) == 0 Then
-			If $IsCheckedFromPage1 Then
+		If @error or UBound($AllInfo) == 0 Then 
+			If $IsCheckedFromPage1 Then 
 				If $PageCount = $TotalPages Then ExitLoop
 				$PageCount += 1
 			Else
@@ -320,11 +312,11 @@ Func _FlickrDownload($ID, $SavePath, $MultiNumber)
 			While 1
 				Local $FileLink = _ArrayPop($AllLink)
 				Local $FileTitle = _ArrayPop($AllTitle)
-
+				
 				$TotalImgCount += 1
-
+			
 				If not FileExists($SavePath & "\" & $FileTitle) Then ExitLoop ; Không tải những tệp đã tồn tại
-
+				
 				If UBound($AllLink) = 0 Then ExitLoop 2
 			WEnd
 			;--------------------------------------------------------------------------------------
@@ -376,8 +368,8 @@ Func _FlickrDownload($ID, $SavePath, $MultiNumber)
 						For $i = 0 To $MultiNumber - 1
 							If InetGetInfo($MultiHandle[$i], $INET_DOWNLOADCOMPLETE) Then $FileCompleteCount += 1
 						Next
-						If $FileCompleteCount = $MultiNumber Then
-							_SetStt("Đã dừng!")
+						If $FileCompleteCount = $MultiNumber Then 
+							_SetStt("Đã dừng!")					
 							GUICtrlSetData($Download, "Bắt đầu")
 							Return
 						EndIf
@@ -417,11 +409,11 @@ Func _FlickrDownload($ID, $SavePath, $MultiNumber)
 		EndIf
 	WEnd
 	;--------------------------------------------------------------------------------------
-	If $TotalImgCount > 0 Then
+	If $TotalImgCount > 0 Then 
 		If $IsCheckedOpenFolder Then
 			ShellExecute($SavePath)
 			If FileExists($SavePath & "\FlickrUrlExportVideoPrivate.txt") Then ShellExecute($SavePath & "\FlickrUrlExportVideoPrivate.txt")
-		EndIf
+		EndIf		
 		_SetStt(StringFormat("Hoàn thành (%s/%s ảnh)!", $TotalImgCount, $TotalImg))
 		GUICtrlSetData($Download, "Tải")
 	EndIf
@@ -493,9 +485,9 @@ Func _FlickrExport($ID, $SavePath)
 						Local $hData, $PreID = StringRegExp($AllInfo[$i], ':"(.*?)"', 1)[0]
 						If _IsChecked($Cb_Private) Then
 							ConsoleWrite("PreID = " & $PreID)
-							$hData = _HttpRequest(2, _Flickr_GetSizes($PreID, True))
-						Else
 							$hData = _HttpRequest(2, _Flickr_GetSizes($PreID))
+						Else
+							$hData = _HttpRequest(2, 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' & $ApiKey & '&photo_id=' & $PreID & '&format=json&nojsoncallback=1')
 						EndIf
 						$hData = StringRegExp(StringReplace($hData, "\", ""), '"source":"(.*?)"', 3)
 						If @error Then
@@ -556,12 +548,12 @@ Func _UrlReplace($ID, $Page = 1)
 	Local $i = _ArraySearch($SizeName, GUICtrlRead($Cb_Size))
 	If _IsGroup() Then
 		If _IsChecked($Cb_Private) Then Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam(), True)
-		Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam(), True)
+		Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam())
 	ElseIf _IsPhotoSet() Then
 		Local $iPhotoSetID = StringSplit(GUICtrlRead($IpUrl), "/")
 		$iPhotoSetID = $iPhotoSetID[UBound($iPhotoSetID) - 1]
 		If _IsChecked($Cb_Private) Then Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID, True)
-		Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID, False)
+		Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID)
 	Else
 		If _IsChecked($Cb_Private) Then Return _Flickr_GetPeoplePhoto($ID, $Page, _GetSizeParam(), True)
 		Return _Flickr_GetPeoplePhoto($ID, $Page, _GetSizeParam())
@@ -597,6 +589,14 @@ Func _IsChecked($hHandle)
 	Return BitAND(GUICtrlRead($hHandle), $GUI_CHECKED) = $GUI_CHECKED
 EndFunc   ;==>_IsChecked
 
+Func _IsInternetConnected()
+	Local $aReturn = DllCall('connect.dll', 'long', 'IsInternetConnected')
+	If @error Then
+		Return SetError(1, 0, False)
+	EndIf
+	Return $aReturn[0] = 0
+EndFunc   ;==>_IsInternetConnected
+
 Func _SaveInfo()
 	$IsCheckedNameStt    = _IsChecked($Cb_NameStt)
 	$IsCheckedNameId     = _IsChecked($Cb_NameId)
@@ -605,7 +605,7 @@ Func _SaveInfo()
 	$IsCheckedVideo      = _IsChecked($Cb_Video)
 	$IsCheckedFromPage1  = _IsChecked($Cb_FromPage1)
 	$IsCheckedOpenFolder = _IsChecked($Cb_OpenFolder)
-	$IsCheckedAutoUpdate = _IsChecked($Cb_AutoUpdate)
+;~ 	$IsCheckedAutoUpdate = _IsChecked($Cb_AutoUpdate)
 	;--------------------------------------------------------------------------------------
 	_IniWriteState("Setting", "NameStt",    $IsCheckedNameStt)
 	_IniWriteState("Setting", "NameId",     $IsCheckedNameId)
@@ -614,7 +614,7 @@ Func _SaveInfo()
 	_IniWriteState("Setting", "Video",      $IsCheckedVideo)
 	_IniWriteState("Setting", "FromPage1",  $IsCheckedFromPage1)
 	_IniWriteState("Setting", "OpenFolder", $IsCheckedOpenFolder)
-	_IniWriteState("Setting", "AutoUpdate", $IsCheckedAutoUpdate)
+;~ 	_IniWriteState("Setting", "AutoUpdate", $IsCheckedAutoUpdate)
 EndFunc   ;==>_SaveInfo
 
 Func _SetOptionState()
@@ -625,7 +625,7 @@ Func _SetOptionState()
 	If $IsCheckedVideo      Then GUICtrlSetState($Cb_Video, $GUI_CHECKED)
 	If $IsCheckedFromPage1  Then GUICtrlSetState($Cb_FromPage1, $GUI_CHECKED)
 	If $IsCheckedOpenFolder Then GUICtrlSetState($Cb_OpenFolder, $GUI_CHECKED)
-	If $IsCheckedAutoUpdate Then GUICtrlSetState($Cb_AutoUpdate, $GUI_CHECKED)
+;~ 	If $IsCheckedAutoUpdate Then GUICtrlSetState($Cb_AutoUpdate, $GUI_CHECKED)
 	;--------------------------------------------------------------------------------------
 	Local $hExample = GUICtrlRead($Lb_Example)
 	If $IsCheckedNameStt Then
