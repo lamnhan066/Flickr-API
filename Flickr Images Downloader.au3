@@ -40,7 +40,6 @@ Global $IsCheckedAutoSize   = _IniReadState("Setting", "AutoSize", "True")
 Global $IsCheckedVideo      = _IniReadState("Setting", "Video", "True")
 Global $IsCheckedFromPage1  = _IniReadState("Setting", "FromPage1", "False")
 Global $IsCheckedOpenFolder = _IniReadState("Setting", "OpenFolder", "True")
-;~ Global $IsCheckedAutoUpdate = _IniReadState("Setting", "AutoUpdate", "False")
 ;--------------------------------------------------------------------------------------
 Global $IsDebug = False
 ;--------------------------------------------------------------------------------------
@@ -605,7 +604,6 @@ Func _SaveInfo()
 	$IsCheckedVideo      = _IsChecked($Cb_Video)
 	$IsCheckedFromPage1  = _IsChecked($Cb_FromPage1)
 	$IsCheckedOpenFolder = _IsChecked($Cb_OpenFolder)
-;~ 	$IsCheckedAutoUpdate = _IsChecked($Cb_AutoUpdate)
 	;--------------------------------------------------------------------------------------
 	_IniWriteState("Setting", "NameStt",    $IsCheckedNameStt)
 	_IniWriteState("Setting", "NameId",     $IsCheckedNameId)
@@ -614,7 +612,6 @@ Func _SaveInfo()
 	_IniWriteState("Setting", "Video",      $IsCheckedVideo)
 	_IniWriteState("Setting", "FromPage1",  $IsCheckedFromPage1)
 	_IniWriteState("Setting", "OpenFolder", $IsCheckedOpenFolder)
-;~ 	_IniWriteState("Setting", "AutoUpdate", $IsCheckedAutoUpdate)
 EndFunc   ;==>_SaveInfo
 
 Func _SetOptionState()
@@ -625,7 +622,6 @@ Func _SetOptionState()
 	If $IsCheckedVideo      Then GUICtrlSetState($Cb_Video, $GUI_CHECKED)
 	If $IsCheckedFromPage1  Then GUICtrlSetState($Cb_FromPage1, $GUI_CHECKED)
 	If $IsCheckedOpenFolder Then GUICtrlSetState($Cb_OpenFolder, $GUI_CHECKED)
-;~ 	If $IsCheckedAutoUpdate Then GUICtrlSetState($Cb_AutoUpdate, $GUI_CHECKED)
 	;--------------------------------------------------------------------------------------
 	Local $hExample = GUICtrlRead($Lb_Example)
 	If $IsCheckedNameStt Then
