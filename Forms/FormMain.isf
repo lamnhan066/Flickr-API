@@ -1,3 +1,5 @@
+#include-once
+
 ; -- Created with ISN Form Studio 2 for ISN AutoIt Studio -- ;
 #include <StaticConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -7,43 +9,43 @@
 #include <ProgressConstants.au3>
 #include <ComboConstants.au3>
 
-$FormMain = GUICreate("Flickr Images Downloader",378,153,-1,-1,-1,-1)
-$IpUrl = GUICtrlCreateInput("",11,9,276,22,-1,$WS_EX_CLIENTEDGE)
+Global $FormMain = GUICreate("Flickr Images Downloader",378,153,-1,-1,-1,-1)
+Global $IpUrl = GUICtrlCreateInput("",11,9,276,22,-1,$WS_EX_CLIENTEDGE)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Url của Flickr cần tải")
 GUICtrlSendMsg(-1, $EM_SETCUEBANNER, True, "UserID hoặc https://www.flickr.com/...")
-$Ip_Path = GUICtrlCreateInput("C:\Program Files (x86)\ISN AutoIt Studio\Data\Plugins\formstudio2\Downloads",10,37,326,24,-1,$WS_EX_CLIENTEDGE)
+Global $Ip_Path = GUICtrlCreateInput("C:\Program Files (x86)\ISN AutoIt Studio\Data\Plugins\formstudio2\Downloads",10,37,326,24,-1,$WS_EX_CLIENTEDGE)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Thư mục lưu ảnh")
 GUICtrlSetData(-1, @ScriptDir & "\Downloads")
-$Download = GUICtrlCreateButton("Tải",180,66,92,26,-1,-1)
+Global $Download = GUICtrlCreateButton("Tải",180,66,92,26,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Bắt đầu tải")
-$Bt_Path = GUICtrlCreateButton("...",343,37,28,26,-1,-1)
+Global $Bt_Path = GUICtrlCreateButton("...",343,37,28,26,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Chọn thư mục lưu ảnh")
-$ProgressBar = GUICtrlCreateProgress(10,98,361,20,$PBS_SMOOTH,-1)
-$Lb_Status = GUICtrlCreateLabel("",38,125,305,21,BitOr($SS_CENTER,$SS_CENTERIMAGE),-1)
+Global $ProgressBar = GUICtrlCreateProgress(10,98,361,20,$PBS_SMOOTH,-1)
+Global $Lb_Status = GUICtrlCreateLabel("",38,125,305,21,BitOr($SS_CENTER,$SS_CENTERIMAGE),-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetBkColor(-1,"-2")
-$Cb_Size = GUICtrlCreateCombo("",10,68,106,24,-1,-1)
+Global $Cb_Size = GUICtrlCreateCombo("",10,68,106,24,-1,-1)
 GUICtrlSetData(-1,"")
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Kích thước ảnh muốn tải")
-$Cb_Thread = GUICtrlCreateCombo("",126,68,46,24,-1,-1)
+Global $Cb_Thread = GUICtrlCreateCombo("",126,68,46,24,-1,-1)
 GUICtrlSetData(-1,"")
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Số ảnh tải về cùng lúc")
-$Cb_Private = GUICtrlCreateCheckbox("Riêng tư",294,8,73,25,-1,-1)
+Global $Cb_Private = GUICtrlCreateCheckbox("Riêng tư",294,8,73,25,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Sử dụng OAuth cấp quyền tải ở chế độ riêng tư (chỉ sử dụng permission Read)")
-$Bt_ExportTxt = GUICtrlCreateButton("Xuất tệp",279,66,92,26,-1,-1)
+Global $Bt_ExportTxt = GUICtrlCreateButton("Xuất tệp",279,66,92,26,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Xuất danh sách đường dẫn tải về ra tệp .txt")
-$Bt_Question = GUICtrlCreateButton("?",343,123,28,26,-1,-1)
+Global $Bt_Question = GUICtrlCreateButton("?",343,123,28,26,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetTip(-1,"Hướng dẫn")
-$Bt_Option = GUICtrlCreateButton("⚙️",10,123,28,26,BitOr($BS_CENTER,$BS_VCENTER),-1)
+Global $Bt_Option = GUICtrlCreateButton("⚙️",10,123,28,26,BitOr($BS_CENTER,$BS_VCENTER),-1)
 GUICtrlSetFont(-1,14,400,0,"Arial")
 GUICtrlSetTip(-1,"Tùy chỉnh")
 
@@ -51,7 +53,7 @@ GUICtrlSetTip(-1,"Tùy chỉnh")
 
 #cs
 [gui]
-Handle_deklaration=default
+Handle_deklaration=global
 Handle_deklaration_const=false
 title=Flickr Images Downloader
 breite=378
@@ -68,7 +70,7 @@ xpos=-1
 ypos=-1
 center_gui=true
 title_textmode=normal
-isf_include_once=false
+isf_include_once=true
 only_controls_in_isf=false
 const_modus=default
 gui_code_in_function=false
@@ -86,7 +88,7 @@ gui_event_resized=
 gui_event_dropped=
 defaultfont=MS Sans Serif
 defaultfontsize=8
-[0x0008258E]
+[0x00091666]
 handle=418
 locked=0
 resize=
@@ -114,7 +116,7 @@ order=3
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012590]
+[0x00021664]
 handle=419
 locked=0
 resize=
@@ -142,7 +144,8 @@ order=2
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012592]
+iconlarge=0
+[0x00021662]
 handle=420
 locked=0
 resize=
@@ -170,7 +173,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=3
-[0x00012594]
+[0x00021660]
 handle=421
 locked=0
 resize=
@@ -198,7 +201,7 @@ order=4
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012596]
+[0x0002165A]
 handle=422
 locked=0
 resize=
@@ -226,7 +229,7 @@ order=5
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012598]
+[0x0002165C]
 handle=423
 locked=0
 resize=
@@ -254,7 +257,7 @@ order=6
 tabpage=-1
 iconindex=
 textmode=text
-[0x0001259A]
+[0x0002165E]
 handle=424
 locked=0
 resize=
@@ -282,7 +285,7 @@ order=7
 tabpage=-1
 iconindex=
 textmode=text
-[0x000125A0]
+[0x00021668]
 handle=425
 locked=0
 resize=
@@ -310,7 +313,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=8
-[0x000125A6]
+[0x00021682]
 handle=426
 locked=0
 resize=
@@ -338,7 +341,7 @@ order=9
 tabpage=-1
 iconindex=
 textmode=text
-[0x000125A8]
+[0x00021680]
 handle=427
 locked=0
 resize=
@@ -366,7 +369,7 @@ tabpage=-1
 iconindex=1
 textmode=text
 order=11
-[0x000125AA]
+[0x0002167A]
 handle=428
 locked=0
 resize=
@@ -394,7 +397,7 @@ tabpage=-1
 iconindex=1
 textmode=text
 order=11
-[0x000125AC]
+[0x0002167E]
 handle=429
 locked=0
 resize=

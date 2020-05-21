@@ -18,7 +18,7 @@ Global $Cb_FromPage1
 
 
 Func _FormOption()
-$FormOption = GUICreate("Tùy chọn",384,185,-1,-1,-1,-1)
+$FormOption = GUICreate("Tùy chọn",384,182,-1,-1,-1,-1)
 $Cb_NameStt = GUICtrlCreateCheckbox("Đánh số thứ tự",19,48,117,20,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 $Cb_NameSize = GUICtrlCreateCheckbox("Kích thước ảnh",242,48,118,20,-1,-1)
@@ -56,7 +56,7 @@ Handle_deklaration=global
 Handle_deklaration_const=false
 title=Tùy chọn
 breite=384
-hoehe=185
+hoehe=182
 style=-1
 exstyle=-1
 bgcolour=0xF0F0F0
@@ -87,7 +87,7 @@ gui_event_resized=
 gui_event_dropped=
 defaultfont=MS Sans Serif
 defaultfontsize=8
-[0x00082B74]
+[0x00091E64]
 handle=418
 locked=0
 resize=
@@ -115,7 +115,7 @@ order=0
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012B76]
+[0x00021E86]
 handle=419
 locked=0
 resize=
@@ -143,7 +143,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=2
-[0x00012B78]
+[0x00021E92]
 handle=420
 locked=0
 resize=
@@ -171,7 +171,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=3
-[0x00012B7A]
+[0x00021E90]
 handle=421
 locked=0
 resize=
@@ -199,7 +199,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=5
-[0x00012B7C]
+[0x00021E8E]
 handle=422
 locked=0
 resize=
@@ -227,7 +227,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=6
-[0x00012B7E]
+[0x00021E8C]
 handle=423
 locked=0
 resize=
@@ -255,7 +255,7 @@ tabpage=-1
 iconindex=
 textmode=text
 order=7
-[0x00012B80]
+[0x00021E8A]
 handle=424
 locked=0
 resize=
@@ -283,8 +283,8 @@ order=8
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012B84]
-handle=426
+[0x00021E88]
+handle=425
 locked=0
 resize=
 code=
@@ -311,8 +311,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=9
-[0x00012B88]
-handle=428
+[0x00021E94]
+handle=426
 locked=0
 resize=
 code=
@@ -340,8 +340,8 @@ iconindex=
 textmode=text
 order=11
 iconlarge=0
-[0x00012B8A]
-handle=429
+[0x00021EAA]
+handle=427
 locked=0
 resize=
 code=
