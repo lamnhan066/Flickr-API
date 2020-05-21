@@ -13,14 +13,12 @@ Global $Cb_NameId
 Global $Lb_Example
 Global $Cb_AutoSize
 Global $Cb_Video
-Global $Bt_CheckUpdate
-Global $Cb_AutoUpdate
 Global $Cb_OpenFolder
 Global $Cb_FromPage1
 
 
 Func _FormOption()
-$FormOption = GUICreate("Tùy chọn",384,237,-1,-1,-1,-1)
+$FormOption = GUICreate("Tùy chọn",384,185,-1,-1,-1,-1)
 $Cb_NameStt = GUICtrlCreateCheckbox("Đánh số thứ tự",19,48,117,20,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 $Cb_NameSize = GUICtrlCreateCheckbox("Kích thước ảnh",242,48,118,20,-1,-1)
@@ -34,8 +32,6 @@ $Cb_AutoSize = GUICtrlCreateCheckbox("Tải ảnh kích thước lớn nhất (�
 GUICtrlSetFont(-1,11,400,0,"Arial")
 $Cb_Video = GUICtrlCreateCheckbox("Cho phép tải Video",18,116,357,20,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
-$Bt_CheckUpdate = GUICtrlCreateButton("Kiểm tra cập nhật",110,200,143,30,-1,-1)
-GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlCreateLabel("CÁCH ĐẶT TÊN",141,8,102,15,-1,-1)
 GUICtrlSetFont(-1,11,700,0,"Arial")
 GUICtrlSetColor(-1,"0x0000FF")
@@ -44,8 +40,6 @@ GUICtrlCreateLabel("TÙY CHỈNH TẢI",141,76,102,15,-1,-1)
 GUICtrlSetFont(-1,11,700,0,"Arial")
 GUICtrlSetColor(-1,"0x0000FF")
 GUICtrlSetBkColor(-1,"-2")
-$Cb_AutoUpdate = GUICtrlCreateCheckbox("Tự động kiểm tra cập nhật khi mở App.",18,176,283,20,-1,-1)
-GUICtrlSetFont(-1,11,400,0,"Arial")
 $Cb_OpenFolder = GUICtrlCreateCheckbox("Mở thư mục lưu ảnh sau khi tải xong",18,156,264,20,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 $Cb_FromPage1 = GUICtrlCreateCheckbox("Tải từ trang 1 (mặc định từ trang cuối)",18,136,264,20,-1,-1)
@@ -62,7 +56,7 @@ Handle_deklaration=global
 Handle_deklaration_const=false
 title=Tùy chọn
 breite=384
-hoehe=237
+hoehe=185
 style=-1
 exstyle=-1
 bgcolour=0xF0F0F0
@@ -91,8 +85,10 @@ gui_event_secoundarydown=
 gui_event_secoundaryup=
 gui_event_resized=
 gui_event_dropped=
-[0x000F1B66]
-handle=409
+defaultfont=MS Sans Serif
+defaultfontsize=8
+[0x00082B74]
+handle=418
 locked=0
 resize=
 code=
@@ -119,8 +115,8 @@ order=0
 tabpage=-1
 iconindex=
 textmode=text
-[0x001A1B5A]
-handle=410
+[0x00012B76]
+handle=419
 locked=0
 resize=
 code=
@@ -147,8 +143,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=2
-[0x00081B04]
-handle=411
+[0x00012B78]
+handle=420
 locked=0
 resize=
 code=
@@ -175,8 +171,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=3
-[0x00081B0E]
-handle=412
+[0x00012B7A]
+handle=421
 locked=0
 resize=
 code=
@@ -203,8 +199,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=5
-[0x00081AD6]
-handle=413
+[0x00012B7C]
+handle=422
 locked=0
 resize=
 code=
@@ -231,8 +227,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=6
-[0x00081B26]
-handle=414
+[0x00012B7E]
+handle=423
 locked=0
 resize=
 code=
@@ -259,8 +255,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=7
-[0x00081B06]
-handle=415
+[0x00012B80]
+handle=424
 locked=0
 resize=
 code=
@@ -287,36 +283,8 @@ order=8
 tabpage=-1
 iconindex=
 textmode=text
-[0x00081ADA]
-handle=416
-locked=0
-resize=
-code=
-type=button
-x=110
-y=200
-width=143
-height=30
-text=Kiểm tra cập nhật
-tooltip=
-state=$GUI_SHOW+$GUI_ENABLE
-style=
-exstyle=
-textcolour=0x000000
-bgcolour=
-font=Arial
-fontsize=11
-fontstyle=400
-fontattribute=0
-id=$Bt_CheckUpdate
-func=
-bgimage=
-order=8
-tabpage=-1
-iconindex=
-textmode=text
-[0x00081B02]
-handle=417
+[0x00012B84]
+handle=426
 locked=0
 resize=
 code=
@@ -343,36 +311,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=9
-[0x00081AF0]
-handle=418
-locked=0
-resize=
-code=
-type=checkbox
-x=18
-y=176
-width=283
-height=20
-text=Tự động kiểm tra cập nhật khi mở App.
-tooltip=
-state=$GUI_SHOW+$GUI_ENABLE
-style=
-exstyle=
-textcolour=0x000000
-bgcolour=0xF0F0F0
-font=Arial
-fontsize=11
-fontstyle=400
-fontattribute=0
-id=$Cb_AutoUpdate
-func=
-bgimage=
-tabpage=-1
-iconindex=
-textmode=text
-order=10
-[0x00081AE4]
-handle=419
+[0x00012B88]
+handle=428
 locked=0
 resize=
 code=
@@ -399,8 +339,9 @@ tabpage=-1
 iconindex=
 textmode=text
 order=11
-[0x00081ADC]
-handle=420
+iconlarge=0
+[0x00012B8A]
+handle=429
 locked=0
 resize=
 code=

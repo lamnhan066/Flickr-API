@@ -84,8 +84,10 @@ gui_event_secoundarydown=
 gui_event_secoundaryup=
 gui_event_resized=
 gui_event_dropped=
-[0x00081D7A]
-handle=409
+defaultfont=MS Sans Serif
+defaultfontsize=8
+[0x0008258E]
+handle=418
 locked=0
 resize=
 code=
@@ -112,8 +114,8 @@ order=3
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D7C]
-handle=410
+[0x00012590]
+handle=419
 locked=0
 resize=
 code=GUICtrlSendMsg(-1, $EM_SETCUEBANNER, True, "UserID hoặc https://www.flickr.com/...")
@@ -140,8 +142,8 @@ order=2
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D7E]
-handle=411
+[0x00012592]
+handle=420
 locked=0
 resize=
 code=GUICtrlSetData(-1, @ScriptDir & "\Downloads")
@@ -168,8 +170,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=3
-[0x00011D80]
-handle=412
+[0x00012594]
+handle=421
 locked=0
 resize=
 code=
@@ -196,8 +198,8 @@ order=4
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D82]
-handle=413
+[0x00012596]
+handle=422
 locked=0
 resize=
 code=
@@ -224,8 +226,8 @@ order=5
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D84]
-handle=414
+[0x00012598]
+handle=423
 locked=0
 resize=
 code=
@@ -252,8 +254,8 @@ order=6
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D86]
-handle=415
+[0x0001259A]
+handle=424
 locked=0
 resize=
 code=
@@ -280,8 +282,8 @@ order=7
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D8C]
-handle=416
+[0x000125A0]
+handle=425
 locked=0
 resize=
 code=
@@ -308,8 +310,8 @@ tabpage=-1
 iconindex=
 textmode=text
 order=8
-[0x00011D92]
-handle=417
+[0x000125A6]
+handle=426
 locked=0
 resize=
 code=
@@ -336,8 +338,8 @@ order=9
 tabpage=-1
 iconindex=
 textmode=text
-[0x00011D94]
-handle=418
+[0x000125A8]
+handle=427
 locked=0
 resize=
 code=
@@ -364,8 +366,8 @@ tabpage=-1
 iconindex=1
 textmode=text
 order=11
-[0x00011D96]
-handle=419
+[0x000125AA]
+handle=428
 locked=0
 resize=
 code=
@@ -392,8 +394,8 @@ tabpage=-1
 iconindex=1
 textmode=text
 order=11
-[0x00011D98]
-handle=420
+[0x000125AC]
+handle=429
 locked=0
 resize=
 code=

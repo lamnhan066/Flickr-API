@@ -7,12 +7,11 @@
 #Include <GuiButton.au3>
 
 Local $Infor
-Local $Lb_fbUrl
-Local $Lb_WsUrl
+Local $Lb_EmailUrl
 
 
 Func _Infor()
-$Infor = GUICreate("Flickr Images Downloader",770,612,-1,-1,-1,-1)
+$Infor = GUICreate("Flickr Images Downloader",770,587,-1,-1,-1,-1)
 GUICtrlCreateLabel("- Nhập UserID (vd:1978405@N23) hoặc Url (https://www.flickr.com/groups/pretty_nature) vào khung đầu tiên (Url không cần thiết phải chứa UserID)."&@crlf&"- [  ] Riêng tư: Cho phép App truy nhập quyền Đọc tài khoản để tải ảnh hoặc video từ các tài khoản riêng tư (chỉ thấy được nội dung sau khi Theo dõi hoặc Tham gia). Nếu sử dụng tùy chọn này thì App sẽ mở trình duyệt dẫn tới link xác nhận (trình duyệt phải được đăng nhập Flickr), sau khi xác nhận thì web sẽ chuyển hướng đến trang có chứa 9 kí tự, hãy copy (kể cả dấu gạch ngang) rồi paste vào thông báo của App để xác nhận."&@crlf&"  ** Mẹo: Có thể đăng nhập Flickr trước trên trình duyệt mặc định rồi mở App để xác nhận"&@crlf&"  ** Mẹo: Bỏ trống UserID và check vô Riêng tư thì App sẽ tự tìm UserID của bạn."&@crlf&"- [...]: Chọn vị trí để lưu ảnh."&@crlf&"- Chọn kích thước ảnh muốn tải (Original, Large ...)."&@crlf&"- Chọn số ảnh để tải về cùng lúc (tối đa 16 ảnh cùng lúc)."&@crlf&"- [Tải]: Nhấn để bắt đầu tải."&@crlf&"- [Xuất tệp]: Xuất link ra file .txt để tải sau (tải bằng IDM ...), đặt tên tệp sẽ không được áp dụng khi sử dụng tính năng này."&@crlf&"- Bánh răng: Tùy chỉnh App."&@crlf&"- [ ? ]: Hướng dẫn."&@crlf&"                                                                        ------------o0o------------"&@crlf&"- Tùy chỉnh:"&@crlf&" + Cách đặt tên: Lựa chọn cách đặt tên cho file tải về, nếu là video sẽ tự động thêm (Video) thay vì kích thước ảnh."&@crlf&" + [  ] Tải ảnh kích thước lớn nhất: Tự động lựa chọn ảnh kích thước lớn gần với kích thước ảnh đang chọn nhất nếu không tồn tại ảnh với kích thước đang chọn."&@crlf&" + [  ] Tải từ trang 1 (mặc định từ trang cuối): Nên để mặc định từ trang cuối để chức năng tải tiếp tục hoạt động tốt hơn. Nếu đã lỡ tải bằng phiên bản cũ chưa có chức năng này (Ver 1.1.3 về trước) thì check vào checkbox này để tải theo kiểu cũ."&@crlf&" + [  ] Cho phép tải Video: Nếu không chọn sẽ tải ảnh đại diện cho video thay vì video. Tính năng này chỉ hoạt động với những tài khoản Công khai, với tài khoản Riêng tư App sẽ xuất ra tệp riêng tên FlickrUrlExportVideoPrivate.txt chứa đường dẫn tải ảnh ở cùng thư mục lưu ảnh (phải copy từng link paste vào trình duyệt đã đăng nhập Flickr để tải những video này)"&@crlf&" + [  ] Mở thư mục lưu ảnh sau khi tải xong: Mở thư mục lưu ảnh, nếu là tài khoản riêng tư và có chứa Video thì app sẽ tự động mở tệp chứa danh sách link Video riêng tư.",12,42,753,485,-1,-1)
 GUICtrlSetFont(-1,11,400,0,"Arial")
 GUICtrlSetBkColor(-1,"-2")
@@ -20,28 +19,19 @@ GUICtrlCreateLabel("Hướng dẫn",332,10,106,25,-1,-1)
 GUICtrlSetFont(-1,16,400,0,"Arial")
 GUICtrlSetColor(-1,"0x0000FF")
 GUICtrlSetBkColor(-1,"-2")
-GUICtrlCreateLabel("Tác giả: LYO",324,532,122,24,-1,-1)
+GUICtrlCreateLabel("Tác giả: LtnhanSt94",289,534,208,24,-1,-1)
 GUICtrlSetFont(-1,16,400,0,"Arial")
 GUICtrlSetColor(-1,"0x0000FF")
 GUICtrlSetBkColor(-1,"-2")
-$Lb_fbUrl = GUICtrlCreateLabel("fb.com/ltnhan.st.94",347,558,177,25,-1,-1)
-GUICtrlSetFont(-1,16,400,0,"Arial")
-GUICtrlSetColor(-1,"0x0000FF")
-GUICtrlSetBkColor(-1,"-2")
-GUICtrlSetCursor(-1, 0)
-GUICtrlCreateLabel("Facebook:",244,558,99,24,-1,-1)
-GUICtrlSetFont(-1,16,400,0,"Arial")
-GUICtrlSetColor(-1,"0x0000FF")
-GUICtrlSetBkColor(-1,"-2")
-GUICtrlCreateLabel("Website:",244,582,87,24,-1,-1)
-GUICtrlSetFont(-1,16,400,0,"Arial")
-GUICtrlSetColor(-1,"0x0000FF")
-GUICtrlSetBkColor(-1,"-2")
-$Lb_WsUrl = GUICtrlCreateLabel("ltnhanst94.name.vn",343,582,183,24,-1,-1)
+$Lb_EmailUrl = GUICtrlCreateLabel("ltnhanst94@gmail.com",308,558,226,24,-1,-1)
 GUICtrlSetFont(-1,16,400,0,"Arial")
 GUICtrlSetColor(-1,"0x0000FF")
 GUICtrlSetBkColor(-1,"-2")
 GUICtrlSetCursor(-1, 0)
+GUICtrlCreateLabel("Email:",244,558,64,24,-1,-1)
+GUICtrlSetFont(-1,16,400,0,"Arial")
+GUICtrlSetColor(-1,"0x0000FF")
+GUICtrlSetBkColor(-1,"-2")
 return $Infor
 EndFunc
 
@@ -53,7 +43,7 @@ Handle_deklaration=local
 Handle_deklaration_const=false
 title=Flickr Images Downloader
 breite=770
-hoehe=612
+hoehe=587
 style=-1
 exstyle=-1
 bgcolour=0xF0F0F0
@@ -82,8 +72,10 @@ gui_event_secoundarydown=
 gui_event_secoundaryup=
 gui_event_resized=
 gui_event_dropped=
-[0x00082026]
-handle=415
+defaultfont=MS Sans Serif
+defaultfontsize=8
+[0x000821E2]
+handle=418
 locked=0
 resize=
 code=
@@ -110,8 +102,9 @@ order=0
 tabpage=-1
 iconindex=
 textmode=text
-[0x00012028]
-handle=416
+iconlarge=0
+[0x000121E4]
+handle=419
 locked=0
 resize=
 code=
@@ -138,17 +131,17 @@ order=2
 tabpage=-1
 iconindex=
 textmode=text
-[0x0001202A]
-handle=417
+[0x000121E6]
+handle=420
 locked=0
 resize=
 code=
 type=label
-x=324
-y=532
-width=122
+x=289
+y=534
+width=208
 height=24
-text=Tác giả: LYO
+text=Tác giả: LtnhanSt94
 tooltip=
 state=$GUI_SHOW+$GUI_ENABLE
 style=
@@ -166,17 +159,18 @@ tabpage=-1
 iconindex=
 textmode=text
 order=3
-[0x0001202C]
-handle=418
+iconlarge=0
+[0x000121E8]
+handle=421
 locked=0
 resize=
 code=GUICtrlSetCursor(-1, 0)[BREAK]
 type=label
-x=347
+x=308
 y=558
-width=177
-height=25
-text=fb.com/ltnhan.st.94
+width=226
+height=24
+text=ltnhanst94@gmail.com
 tooltip=
 state=$GUI_SHOW+$GUI_ENABLE
 style=
@@ -187,24 +181,25 @@ font=Arial
 fontsize=16
 fontstyle=400
 fontattribute=0
-id=$Lb_fbUrl
+id=$Lb_EmailUrl
 func=
 bgimage=
 tabpage=-1
 iconindex=
 textmode=text
 order=4
-[0x0001202E]
-handle=419
+iconlarge=0
+[0x000121EA]
+handle=422
 locked=0
 resize=
 code=
 type=label
 x=244
 y=558
-width=99
+width=64
 height=24
-text=Facebook:
+text=Email:
 tooltip=
 state=$GUI_SHOW+$GUI_ENABLE
 style=
@@ -222,60 +217,5 @@ tabpage=-1
 iconindex=
 textmode=text
 order=5
-[0x000F08F0]
-handle=420
-locked=0
-resize=
-code=
-type=label
-x=244
-y=582
-width=87
-height=24
-text=Website:
-tooltip=
-state=$GUI_SHOW+$GUI_ENABLE
-style=
-exstyle=
-textcolour=0x0000FF
-bgcolour=-2
-font=Arial
-fontsize=16
-fontstyle=400
-fontattribute=0
-id=
-func=
-bgimage=
-tabpage=-1
-iconindex=
-textmode=text
-order=6
-[0x0004203C]
-handle=421
-locked=0
-resize=
-code=GUICtrlSetCursor(-1, 0)[BREAK]
-type=label
-x=343
-y=582
-width=183
-height=24
-text=ltnhanst94.name.vn
-tooltip=
-state=$GUI_SHOW+$GUI_ENABLE
-style=
-exstyle=
-textcolour=0x0000FF
-bgcolour=-2
-font=Arial
-fontsize=16
-fontstyle=400
-fontattribute=0
-id=$Lb_WsUrl
-func=
-bgimage=
-tabpage=-1
-iconindex=
-textmode=text
-order=7
+iconlarge=0
 #ce
