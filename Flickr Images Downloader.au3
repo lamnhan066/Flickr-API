@@ -30,8 +30,8 @@ Global $Secret = ""
 _Flickr_Setup($ApiKey, $Secret)
 ;--------------------------------------------------------------------------------------
 
-Global $SizeName = StringSplit("Original|Large 2048|Large 1600|Large 1024|Medium 800|Medium 640|Medium 500|Small 320|Small 240|Thumbnail|Square 150|Square 75", "|", 2)
-Global $SizeUrl  = StringSplit("o|k|h|l|c|z|m|n|s|t|q|sq", "|", 2)
+Global $SizeName = StringSplit("Original|X-Large 6K|X-Large 5K|X-Large 4K|X-Large 3K|Large 2048|Large 1600|Large 1024|Medium 800|Medium 640|Medium 500|Small 400|Small 320|Small 240|Thumbnail|Square 150|Square 75", "|", 2)
+Global $SizeUrl  = StringSplit("o|6k|5k|4k|3k|k|h|l|c|z|m|n|w|s|t|q|sq", "|", 2)
 ;--------------------------------------------------------------------------------------
 Global $IsCheckedNameStt    = _IniReadState("Setting", "NameStt", "True")
 Global $IsCheckedNameId     = _IniReadState("Setting", "NameId", "False")
