@@ -546,16 +546,13 @@ EndFunc   ;==>_FlickrExport
 Func _UrlReplace($ID, $Page = 1)
 	Local $i = _ArraySearch($SizeName, GUICtrlRead($Cb_Size))
 	If _IsGroup() Then
-		If _IsChecked($Cb_Private) Then Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam(), True)
-		Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam())
+		Return _Flickr_GetGroupPhoto($ID, $Page, _GetSizeParam(), _IsChecked($Cb_Private))
 	ElseIf _IsPhotoSet() Then
 		Local $iPhotoSetID = StringSplit(GUICtrlRead($IpUrl), "/")
 		$iPhotoSetID = $iPhotoSetID[UBound($iPhotoSetID) - 1]
-		If _IsChecked($Cb_Private) Then Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID, True)
-		Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID)
+		Return _Flickr_GetPhotosetsPhoto($ID, $Page, _GetSizeParam(), $iPhotoSetID, _IsChecked($Cb_Private))
 	Else
-		If _IsChecked($Cb_Private) Then Return _Flickr_GetPeoplePhoto($ID, $Page, _GetSizeParam(), True)
-		Return _Flickr_GetPeoplePhoto($ID, $Page, _GetSizeParam())
+		Return _Flickr_GetPeoplePhoto($ID, $Page, _GetSizeParam(), _IsChecked($Cb_Private))
 	EndIf
 EndFunc   ;==>_UrlReplace
 
