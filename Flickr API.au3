@@ -3,7 +3,7 @@
 #include-once
 ; UDF _HttpRequest của tác giả Huân Hoàng
 ; Bài viết: https://autoitvn.com/threads/v14-0-6-23-7-2019-httprequest-cho-nguoi-moi-bat-dau-vi-du-hinh-anh-chi-tiet.267/
-; Tải về (Download): https://drive.google.com/file/d/1AS2mWTKMF5btxyULhh8JIGqD_9yxshif/view
+; Tải về (Download): https://freenote.biz/BqyNZHBlBi
 #include <_HttpRequest.au3> ; UDF _HttpRequest của tác giả Huân Hoàng
 #include <Date.au3>
 #include <Array.au3>
