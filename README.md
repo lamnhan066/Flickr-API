@@ -1,14 +1,10 @@
 # AutoIT_FlickrAPI
-  - Author: Lâm Thành Nhân
-  - Team:   Life's Automation
-  - Email:  lifesautomation@gmail.com
+  - Flickr API for AutoIT and Example app: Flickr Images Downloader
 
 ## Give me a coffee:
 <a href="https://paypal.me/lamnhan066" rel="ugc"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Paypal" /></a>
 <a href="https://www.buymeacoffee.com/lamnhan066" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 <a href="https://nhantien.momo.vn/nMu93PhbO97" target="_blank" rel="ugc"><img src="https://static.mservice.io/img/logo-momo.png" alt="MoMo" height="42" width="42" /></a>
-  
-Flickr API for AutoIT and Example app: Flickr Images Downloader
 
 # Flickr Images Downloader
 ## Android: [here](https://play.google.com/store/apps/details?id=com.lifesautomation.flickrimagesdownloader)
