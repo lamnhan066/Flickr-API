@@ -1,7 +1,6 @@
 ;--------------------------------------------------------------------------------------
-; Author:  Ltnhan.st.94
-; Website: ltnhanst94.name.vn
-; Email:   ltnhan.st.94@gmail.com
+; Author:  lamnhan066
+; Email:   lamnhan066@gmail.com
 ;--------------------------------------------------------------------------------------
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_Description=Flickr Images Downloader
