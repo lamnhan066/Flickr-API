@@ -1,5 +1,5 @@
-; Flickr API write by Ltnhan.st.94
-; Email: ltnhan.st.94@gmail.com
+; Flickr API write by lamnhan066
+; Email: lamnhan066@gmail.com
 #include-once
 ; UDF _HttpRequest của tác giả Huân Hoàng
 ; Bài viết: https://autoitvn.com/threads/v14-0-6-23-7-2019-httprequest-cho-nguoi-moi-bat-dau-vi-du-hinh-anh-chi-tiet.267/
